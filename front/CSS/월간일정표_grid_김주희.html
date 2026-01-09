@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    .content {
+        display: grid;
+        /* 7개의 컬럼(열)을 동일한 비율(1fr)로 생성 */
+        grid-template-columns: repeat(7, 1fr);
+        max-width: 700px;
+        border-top: 1px solid #000;
+        border-left: 1px solid #000;
+    }
+    .calendar {
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+        padding: 2px;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+    }
+    .calendar:nth-child(7n + 9) {
+    background-color: #fffc36;
+    }
+    .calendar:nth-child(7n + 15) {
+        background-color: #fffd72;
+    }
+    .merge-7 {
+        grid-column: span 7;
+        background-color: rgb(6, 0, 90);
+        color: white;
+        font-weight: bold;
+        font-size: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+    .week {
+        background-color: rgb(211, 222, 255);
+        color: rgb(0, 0, 0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+    }
+    .name {
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: center;
+        align-self: center;
+    }
+    .event {
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: center;
+        align-self: center;
+        padding-top: 10px;
+        height: 70px;
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+    <div class="content">   
+        <div class="calendar merge-7">2026년 1월</div>
+
+        <div class="calendar week">일</div>
+        <div class="calendar week">월</div>
+        <div class="calendar week">화</div>
+        <div class="calendar week">수</div>
+        <div class="calendar week">목</div>
+        <div class="calendar week">금</div>
+        <div class="calendar week">토</div>
+
+        <div class="calendar">
+            <div class="name"></div>
+        </div>
+        <div class="calendar">
+            <div class="name"></div>            
+        </div>
+        <div class="calendar">
+            <div class="name"></div>
+        </div>
+        <div class="calendar">
+            <div class="name"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">1</div>
+            <div class="event">신년 휴일</div>
+        </div>
+        <div class="calendar">
+            <div class="name">2</div>
+            <div class="event">휴강</div>
+        </div>
+        <div class="calendar">
+            <div class="name">3</div>
+            <div class="event"></div>
+        </div>
+        
+        <div class="calendar">
+            <div class="name">4</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">5</div>
+            <div class="event">HTML</div>
+        </div>
+        <div class="calendar">
+            <div class="name">6</div>
+            <div class="event">HTML</div>
+        </div>
+        <div class="calendar">
+            <div class="name">7</div>
+            <div class="event">CSS</div>
+        </div>
+        <div class="calendar">
+            <div class="name">8</div>
+            <div class="event">CSS</div>
+        </div>
+        <div class="calendar">
+            <div class="name">9</div>
+            <div class="event">CSS</div>
+        </div>
+        <div class="calendar">
+            <div class="name">10</div>
+            <div class="event"></div>
+        </div>
+
+        <div class="calendar">
+            <div class="name">11</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">12</div>
+            <div class="event">CSS</div>
+        </div>
+        <div class="calendar">
+            <div class="name">13</div>
+            <div class="event">개인웹페이지<br>설계</div>
+        </div>
+        <div class="calendar">
+            <div class="name">14</div>
+            <div class="event">JavaScript</div>
+        </div>
+        <div class="calendar">
+            <div class="name">15</div>
+            <div class="event">JavaScript</div>
+        </div>
+        <div class="calendar">
+            <div class="name">16</div>
+            <div class="event">JavaScript</div>
+        </div>
+        <div class="calendar">
+            <div class="name">17</div>
+            <div class="event"></div>
+        </div>
+
+        <div class="calendar">
+            <div class="name">18</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">19</div>
+            <div class="event">JavaScript</div>
+        </div>
+        <div class="calendar">
+            <div class="name">20</div>
+            <div class="event">JavaScript</div>
+        </div>
+        <div class="calendar">
+            <div class="name">21</div>
+            <div class="event">개인웹페이지<br>만들기</div>
+        </div>
+        <div class="calendar">
+            <div class="name">22</div>
+            <div class="event">개인웹페이지<br>만들기</div>
+        </div>
+        <div class="calendar">
+            <div class="name">23</div>
+            <div class="event">개인웹페이지<br>만들기</div>
+        </div>
+        <div class="calendar">
+            <div class="name">24</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">25</div>
+            <div class="event"></div>
+        </div>
+
+        <div class="calendar">
+            <div class="name">26</div>
+            <div class="event">과정마무리<br>테스트</div>
+        </div>
+        <div class="calendar">
+            <div class="name">27</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">28</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">29</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">30</div>
+            <div class="event"></div>
+        </div>
+        <div class="calendar">
+            <div class="name">31</div>
+            <div class="event"></div>
+        </div>
+    </body>
+</html>
