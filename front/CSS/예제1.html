@@ -19,72 +19,64 @@
       /* 전체 대시보드 */
       .dashboard {
         display: flex;
-        height: 100vh;
+        height: 100%; /* 부모가 100vh(화면높이전체)를 차지하므로 그 공간을 100%로 채움 */
       }
 
       /* 왼쪽 네비게이션 */
       .nav {
-        background-color: midnightblue;
-        display: inline-block;
-        position: static;
-        width: 200px;
-        height: 100vh;
+        width: 220px;
+        background-color: #1e272e;        
+        color: white;
+        padding: 20px;
       }
 
       /* 오른쪽 전체 영역 */
       .right {
         background-color: lightskyblue;
-        display: inline-block;
-        position: relative;
-        width: calc(100% - 200px);
-        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
       }
 
       /* 상단바 */
       .topbar {
-        background-color: steelblue;
-        display: inline-block;
-        position: sticky;
-        width: 100%;
+        background-color: #485460;
         height: 60px;
+        padding: 20px;
+        color: white;
       }
-
       /* 콘텐츠 영역 */
       .content {
-        display: inline-block;
-        position: relative;
-        width: 100%;
-        height: calc(100vh - 120px);
+        display: flex;
+        background-color: #d2dae2;
+        flex: 1;
+        gap: 20px;
+        padding: 15px;
       }
 
       /* 메인 콘텐츠 */
       .main-content {
         background-color: white;
-        display: inline-block;
-        float: left;
-        width: 70%;
-        height: 100%;
-        padding: 10px;
-     }
+        flex: 3;
+        padding: 20px;
+      }
 
       /* 서브 패널 */
       .side-panel {
-        background-color: lightsalmon;
-        display: inline-block;
-        float: right;
-        width: 30%;
-        height: 100%;
-        padding: 10px;
-
+        background-color: #ffa801;
+        flex: 1;
+        padding: 20px;
       }
 
       /* 하단 정보바 */
       .status {
-        background-color: steelblue;
-        display: inline-block;
-        position: sticky;
-        width: 100%;
-        height: 60px;
+        background-color: #808e9b;
+        height: 40px;
+        color: white;
+        /* <아래3줄> 가운데 배치시키는 공식 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     </style>
   </head>
