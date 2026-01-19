@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let damage = 100;
+      let critRate = 20; // 20% 확률
+      let randomVal = Math.floor(Math.random() * 100) + 1; // 1~100 랜덤숫자
+      // 로직: 랜덤 숫자가 20 이하가 나올 확률은 20%임
+      if (randomVal <= critRate) {
+        damage = damage * 2;
+        console.log("크리티컬 히트! 데미지: " + damage);
+      } else {
+        console.log("일반 공격. 데미지: " + damage);
+      }
+    </script>
+  </body>
+</html>

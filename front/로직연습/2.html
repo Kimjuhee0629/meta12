@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let userRole = "guest"; // 현재 접속자 권한
+      // !==는 '같지 않다'를 의미합니다.
+      if (userRole !== "admin") {
+        console.log("관리자만 접근할 수 있습니다. 메인으로 이동합니다.");
+      } else {
+        console.log("관리자 페이지에 접속했습니다.");
+      }
+    </script>
+  </body>
+</html>
