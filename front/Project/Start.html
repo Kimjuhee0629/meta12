@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        height: 100vh;
+      }
+
+      .copy {
+        z-index: 50;
+        display: inline;
+        position: fixed;
+        color: white;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      }
+
+      .title {
+        display: block;
+        position: absolute;
+        text-align: right;
+        right: 100px;
+        top: 100px;
+      }
+
+      .catchphrase {
+        font-size: 100px;
+        font-weight: 800;
+        line-height: 1.05;
+        color: #ffffff;
+
+        text-shadow:
+          0 2px 6px rgba(0, 0, 0, 0.55),
+          0 8px 24px rgba(0, 0, 0, 0.45);
+      }
+
+      .catchphrase .point {
+        color: #ff6e6e;
+      }
+
+      .name {
+        color: white;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        padding: 50px 0;
+        font-size: 20px;
+      }
+
+      .cta:hover .cta-icon {
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+        transform: translateY(-2px);
+      }
+      .cta-icon path {
+        stroke: #ffffff;
+      }
+      .cta:hover .cta-icon path {
+        stroke: #ff6e6e;
+        text-shadow: 0 2px 6px rgba(255, 255, 255, 1);
+        stroke-width: 5; /* 기존 3 → 5 */
+      }
+
+      .background::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .background {
+        position: fixed;
+        inset: 0; /* top:0; right:0; bottom:0; left:0 */
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .background img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block; /* inline 이미지 아래 여백 제거 */
+      }
+      /* 키프레임추가 */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .catchphrase {
+        opacity: 0;
+        animation: fadeUp 1.2s ease-out forwards;
+      }
+
+      .name {
+        opacity: 0;
+        animation: fadeUp 1.2s ease-out forwards;
+        animation-delay: 0.3s;
+      }
+
+      .cta {
+        opacity: 0;
+        animation: fadeUp 1.2s ease-out forwards;
+        animation-delay: 0.6s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="copy">ⓒ 2026 KimJuhee All rights reserved.</div>
+    <div class="title">
+      <div class="catchphrase">
+        <span class="point">T</span>echnical,<br />
+        <span class="point">C</span>oloring.
+      </div>
+      <div class="name">KimJuhee</div>
+      <a class="cta" href="">
+        <svg
+          class="cta-icon"
+          width="180"
+          height="180"
+          viewBox="0 0 180 180"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M90 120L120 90M120 90L90 60M120 90L60 90M165 90C165 131.421 131.421 165 90 165C48.5786 165 15 131.421 15 90C15 48.5786 48.5786 15 90 15C131.421 15 165 48.5786 165 90Z"
+            stroke="#1E1E1E"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </div>
+    <div class="background">
+      <img src="./images/bg.png" />
+    </div>
+  </body>
+</html>
