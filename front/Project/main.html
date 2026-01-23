@@ -59,7 +59,7 @@
         display: flex;
         justify-content: center;
         gap: 44px;
-        font-size: 14px;
+        font-size: 20px;
         letter-spacing: 0.2px;
       }
       .topnav a {
@@ -70,6 +70,88 @@
       }
       .topnav a:hover {
         color: #5a5a5a;
+      }
+      /* Gallery dropdown wrapper */
+      /* nav 정렬 안정 */
+      .topnav nav {
+        align-items: center;
+      }
+
+      /* Gallery dropdown wrapper */
+      .nav-item {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      /* 드롭다운 */
+      .dropdown {
+        position: absolute;
+        left: 50%;
+        top: calc(100% + 10px);
+        transform: translateX(-50%) translateY(-6px);
+        min-width: 132px;
+
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+        border-radius: 8px;
+        padding: 10px;
+
+        /* ✅ 애니메이션용 */
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease,
+          visibility 0ms linear 160ms; /* 닫힐 때만 딜레이 */
+        z-index: 60;
+      }
+
+      /* 드롭다운 항목 */
+      .dropdown a {
+        display: block;
+        padding: 7px 10px;
+        font-size: 13px;
+        color: #6a6a6a;
+        border-radius: 8px;
+        white-space: nowrap;
+      }
+      .dropdown a:hover,
+      .dropdown a:focus-visible {
+        background: rgba(0, 0, 0, 0.06);
+        color: #222;
+        outline: none;
+      }
+
+      /* ✅ hover / 키보드 포커스 들어오면 열림 */
+      .nav-item:hover .dropdown,
+      .nav-item:focus-within .dropdown {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease,
+          visibility 0ms;
+      }
+
+      /* ✅ 마우스 살짝 벗어나도 "바로 꺼짐" 방지용 핫존(틈 메우기) */
+      .nav-item::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        height: 12px; /* dropdown까지 다리 역할 */
+      }
+
+      /* hover/focus로 열리게 */
+      .nav-item:hover .dropdown,
+      .nav-item:focus-within .dropdown {
+        display: block;
       }
 
       /* ====== Section spacing ====== */
@@ -101,6 +183,7 @@
       .headline .soft {
         display: inline-block;
         margin-top: 8px;
+        color: #ff6e6e;
       }
 
       .hero-divider {
@@ -152,19 +235,53 @@
         right: 0;
         width: 92px;
         height: 70px;
-        background: var(--bubble);
+
+        background: rgba(255, 255, 255, 1); /* 회색 대신 반투명 흰색 추천 */
+
         border-radius: 10px;
+
+        box-shadow:
+          0 10px 28px rgba(0, 0, 0, 0.18),
+          0 2px 6px rgba(0, 0, 0, 0.12);
+
+        backdrop-filter: blur(
+          6px
+        ); /* 뒤 이미지 살짝 흐리게(지원 브라우저에서) */
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        color: #ff6e6e; /* 하트 색 더 진하게 */
       }
+
       .bubble::after {
         content: "";
         position: absolute;
         right: 18px;
-        bottom: -12px;
-        width: 0;
-        height: 0;
-        border-left: 14px solid transparent;
-        border-top: 14px solid var(--bubble);
-        transform: skewX(-10deg);
+        bottom: -10px;
+
+        width: 16px;
+        height: 20px;
+
+        background: rgba(255, 255, 255, 1);
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+        transform: rotate(45deg) skewX(-10deg);
+        border-radius: 2px;
+
+        box-shadow: 3px 6px 10px rgba(0, 0, 0, 0.12);
+      }
+
+      /* SVG 크기/색 */
+      .bubble-icon {
+        width: 70px;
+        height: 70px;
+        position: relative;
+        top: -16px;
+
+        fill: currentColor;
       }
 
       /* 우측 점 인디케이터 */
@@ -228,62 +345,218 @@
         gap: 36px 48px;
         width: min(820px, 100%);
         margin: 0 auto;
+        text-align: center;
       }
       .skill-box {
         aspect-ratio: 1 / 1;
-        background: #d8d8d8;
+        display: flex;
+        align-items: center; /* 세로 중앙 */
+        justify-content: center; /* 가로 중앙 */
       }
 
-      /* ====== EXPERIENCE (Work, Professional Experience) ====== */
+      /* ===== Experience slider (auto gallery) ===== */
       .exp {
         background: #efefef;
         padding: 80px 0;
       }
-      .exp h2 {
+
+      .exp-title {
         text-align: center;
         font-size: 50px;
         font-weight: 100;
         margin-bottom: 24px;
       }
 
-      .exp-stage {
+      .exp-slider {
         position: relative;
+        display: block;
+        border-radius: 10px;
+        overflow: hidden;
         background: #d0d0d0;
         height: min(70vh, 760px);
-        border-radius: 8px;
-        overflow: hidden;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.16);
+        cursor: pointer;
       }
 
-      /* 배경처럼 보이는 3단 컬럼(이미지 placeholder 느낌) */
-      .exp-stage .cols {
-        display: grid;
-        grid-template-columns: 0.6fr 2.8fr 0.6fr;
-        height: 100%;
-      }
-      .exp-stage .cols > div:nth-child(1) {
-        background: #5f5f5f;
-      }
-      .exp-stage .cols > div:nth-child(2) {
-        background: #777;
-      }
-      .exp-stage .cols > div:nth-child(3) {
-        background: #5f5f5f;
+      .exp-slider:focus-visible {
+        outline: 3px solid rgba(0, 0, 0, 0.18);
+        outline-offset: 6px;
       }
 
-      .exp-dots {
-        position: absolute;
-        right: 14px;
-        top: 50%;
-        transform: translateY(-50%);
+      .exp-track {
         display: flex;
-        flex-direction: column;
-        gap: 10px;
+        height: 100%;
+        transform: translateX(0%);
+        transition: transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: transform;
+      }
+
+      .exp-slide {
+        flex: 0 0 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      /* 각 슬라이드 배경(임시) — 나중에 이미지 넣고 싶으면 여기만 바꾸면 됨 */
+      .exp-slide:nth-child(1) {
+        background: #7a7a7a;
+      }
+      .exp-slide:nth-child(2) {
+        background: #6c6c6c;
+      }
+      .exp-slide:nth-child(3) {
+        background: #7a7a7a;
+      }
+      .exp-slide:nth-child(4) {
+        background: #6c6c6c;
+      }
+
+      /* 텍스트가 읽히도록 그라데이션 */
+      .exp-slide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.62),
+          rgba(0, 0, 0, 0.12),
+          rgba(0, 0, 0, 0)
+        );
+        pointer-events: none;
+      }
+
+      .exp-slide-inner {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        padding: 34px;
+        z-index: 1;
+      }
+
+      .exp-slide-text {
+        color: #fff;
+        max-width: 70%;
+        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .exp-slide-text small {
+        display: inline-block;
+        font-size: 12px;
+        opacity: 0.9;
+        letter-spacing: 0.4px;
+        margin-bottom: 8px;
+      }
+
+      .exp-slide-text h3 {
+        font-size: 44px;
+        line-height: 1;
+        letter-spacing: -0.6px;
+        margin-bottom: 10px;
+      }
+
+      .exp-slide-text p {
+        font-size: 14px;
+        opacity: 0.92;
+      }
+
+      /* hover 시 살짝 핑크 오버레이 느낌 + 안내 */
+      .exp-slider::before {
+        content: "Click to view details →";
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        font-size: 12px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.82);
+        color: #222;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition:
+          opacity 200ms ease,
+          transform 200ms ease;
+        z-index: 5;
+      }
+
+      .exp-slider:hover::before {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 인디케이터 */
+      .exp-indicator {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(6px);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 12px;
+        color: #222;
+        z-index: 5;
+      }
+
+      .exp-indicator .slash {
+        margin: 0 6px;
+        color: rgba(0, 0, 0, 0.5);
+      }
+      .exp-slide:nth-child(1) {
+        background-image: url("./images/work1-1.png");
+        background-size: cover;
+        background-position: top;
+      }
+      .exp-slide:nth-child(2) {
+        background-image: url("./images/work2-thumb.png");
+        background-size: cover;
+        background-position: center;
+      }
+      .exp-slide:nth-child(3) {
+        background-image: url("./images/work3-thumb.png");
+        background-size: cover;
+        background-position: top 50px;
+      }
+      .exp-slide:nth-child(4) {
+        background-image: url("./images/work4-thumb.png");
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* 모바일 */
+      @media (max-width: 980px) {
+        .exp-slide-text h3 {
+          font-size: 32px;
+        }
+        .exp-slide-inner {
+          padding: 22px;
+        }
       }
 
       /* ====== GALLERY ====== */
       .gallery {
         background: #f7f7f7;
         padding: 0;
+      }
+      /* ✅ 클릭 가능한 메인 뷰 */
+      .gallery-view {
+        width: min(980px, 92%);
+        height: min(75vh, 820px);
+        display: block;
+        overflow: hidden;
+        border-radius: 8px;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ✅ 꽉 차게 + 크롭 */
+      .gallery-view img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover; /* ✅ 핵심 */
+        object-position: center; /* ✅ 크롭 기준(중앙) */
       }
 
       .gallery-stage {
@@ -293,6 +566,24 @@
         display: grid;
         place-items: center;
         overflow: hidden;
+      }
+      .gallery-track {
+        height: 100%;
+        display: flex;
+        transform: translateX(0);
+        transition: transform 520ms ease;
+        will-change: transform;
+      }
+      .gallery-slide {
+        flex: 0 0 100%;
+        height: 100%;
+      }
+      .gallery-slide img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover; /* ✅ 꽉 차게 + 크롭 */
+        object-position: center;
       }
 
       .arrow {
@@ -305,6 +596,7 @@
         background: transparent;
         cursor: pointer;
         opacity: 0.9;
+        z-index: 5;
       }
       .arrow.left {
         left: 18px;
@@ -354,7 +646,55 @@
       .thumb.active {
         background: #8e8e8e;
       }
+      /* 썸네일 버튼 */
+      #thumbs {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 12px;
+      }
 
+      .thumb-btn {
+        border: 0;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+        border-radius: 6px;
+        overflow: hidden;
+        height: 54px;
+        opacity: 0.6;
+        transition:
+          opacity 200ms ease,
+          transform 200ms ease;
+      }
+
+      .thumb-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+
+      .thumb-btn.active {
+        opacity: 1;
+        outline: 2px solid rgba(255, 110, 110, 0.7);
+        outline-offset: 2px;
+      }
+
+      .thumb-btn img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+      /* 반응형 */
+      @media (max-width: 980px) {
+        #thumbs {
+          grid-template-columns: repeat(6, 1fr);
+        }
+      }
+      @media (max-width: 560px) {
+        #thumbs {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
       /* ====== CONTACT ====== */
       .contact {
         background: #efefef;
@@ -462,6 +802,50 @@
           grid-template-columns: repeat(5, 1fr);
         }
       }
+      /* ===== HERO load animation (start.html 느낌) ===== */
+      .hero-animate {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 1000ms ease,
+          transform 1000ms ease;
+        will-change: opacity, transform;
+      }
+
+      .hero-animate--delay {
+        transition-delay: 500ms;
+      }
+
+      /* 로드 후 켜질 클래스 */
+      .hero-animate.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* ===== Scroll reveal (skills 등) ===== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 900ms ease,
+          transform 900ms ease;
+        will-change: opacity, transform;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 순차 딜레이(원하면 사용) */
+      .reveal--d1 {
+        transition-delay: 120ms;
+      }
+      .reveal--d2 {
+        transition-delay: 240ms;
+      }
+      .reveal--d3 {
+        transition-delay: 360ms;
+      }
     </style>
   </head>
 
@@ -470,10 +854,30 @@
     <header class="topnav">
       <div class="wrap">
         <nav aria-label="Primary">
+          <a href="Start.html"
+            ><svg
+              viewBox="0 0 1195 1195"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1109.333 997.248c0 50.176-41.6 90.752-93.12 90.752H724.95V736.32c0-53.056-38.016-96.128-85.056-96.128h-85.12c-46.976 0-85.12 43.072-85.12 96.128V1088H178.39c-51.392 0-93.056-40.576-93.056-90.752V518.272c0-23.36 9.344-44.48 24.192-60.544l-.96-1.856L534.485 82.88c34.304-25.152 89.984-25.152 124.288 0l427.264 372.992-.448 2.368c14.592 16.064 23.744 36.928 23.744 60.032v478.976z"
+              />
+            </svg>
+          </a>
           <a class="active" href="#main">Main</a>
-          <a href="#experience">Experience</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#contact">Contact</a>
+          <a href="./Experience.html">Experience</a>
+          <!-- ✅ Gallery hover dropdown -->
+          <div class="nav-item">
+            <a href="./gallery.html" aria-haspopup="true">Gallery</a>
+            <div class="dropdown" role="menu" aria-label="Gallery categories">
+              <a href="#" data-nav-cat="Game" role="menuitem">Game</a>
+              <a href="#" data-nav-cat="Comic" role="menuitem">Comic</a>
+              <a href="#" data-nav-cat="3D" role="menuitem">3D</a>
+              <a href="#" data-nav-cat="Design" role="menuitem">Design</a>
+            </div>
+          </div>
+          <a href="./contact.html">Contact</a>
         </nav>
       </div>
     </header>
@@ -490,7 +894,7 @@
     <section class="hero" id="main">
       <div class="wrap">
         <div class="hero-grid">
-          <div class="hero-left">
+          <div class="hero-left hero-animate">
             <h1 class="headline">
               Hi,<br />
               <span class="soft">Welcom!</span>
@@ -514,8 +918,21 @@
             </p>
           </div>
 
-          <div class="hero-right">
-            <div class="bubble" aria-hidden="true"></div>
+          <div class="hero-right hero-animate hero-animate--delay">
+            <div class="bubble" aria-hidden="true">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="bubble-icon bi bi-heart"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"
+                />
+              </svg>
+            </div>
             <div class="visual"><img src="./images/profile.png" /></div>
           </div>
         </div>
@@ -525,22 +942,82 @@
     <!-- SKILLS -->
     <section class="skills" id="skills">
       <div class="wrap">
-        <div class="skills-title-row">
+        <div class="skills-title-row reveal">
           <div class="line" aria-hidden="true"></div>
           <div class="skills-title">SKILLS</div>
           <div class="line" aria-hidden="true"></div>
         </div>
 
-        <div class="skills-grid" aria-label="skills grid">
-          <div class="skill-box"></div>
-          <div class="skill-box"></div>
-          <div class="skill-box"></div>
-          <div class="skill-box"></div>
+        <div class="skills-grid reveal reveal--d1" aria-label="skills grid">
+          <div class="skill-box">
+            <img
+              width="150"
+              alt="Logo of the digital imaging program, Adobe illustrateurs"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/512px-Adobe_Photoshop_CC_icon.svg.png?20200616073617"
+            />
+          </div>
+          <div class="skill-box">
+            <img
+              width="150"
+              alt="Pour retouch"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Adobe-illustrator-icon.svg/512px-Adobe-illustrator-icon.svg.png?20250728015003"
+            />
+          </div>
+          <div class="skill-box">
+            <img
+              width="150"
+              alt='The symbol of Blender without the caption "Blender" next to it.'
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/512px-Blender_logo_no_text.svg.png?20210507122249"
+            />
+          </div>
+          <div class="skill-box">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="150"
+              viewBox="0 0 48 48"
+            >
+              <circle cx="24" cy="24" r="20" fill="#757575"></circle>
+              <polygon fill="#fff" points="23,31 23,17.75 17.25,31"></polygon>
+              <polygon fill="#fff" points="12,17 16.25,27.5 20.75,17"></polygon>
+              <polygon fill="#fff" points="12,31 15,31 12,23.5"></polygon>
+              <path
+                fill="#fff"
+                d="M36.5,22.5c0-3.038-2.462-5.5-5.5-5.5h-5.5v2.25H31c1.795,0,3.25,1.455,3.25,3.25	s-1.455,3.25-3.25,3.25h-3V21h-2.5v10H28v-3h2.5l2,3h3.25l-2.377-3.544C35.221,26.569,36.5,24.686,36.5,22.5z"
+              ></path>
+            </svg>
+          </div>
 
-          <div class="skill-box"></div>
-          <div class="skill-box"></div>
-          <div class="skill-box"></div>
-          <div class="skill-box"></div>
+          <div class="skill-box">
+            <img width="150" src="./images/Clipstudiopaint_app_logo.png" />
+          </div>
+          <div class="skill-box">
+            <img
+              width="130"
+              src="https://cdn.brandfetch.io/idEc0EPR9J/id4iYfjjBn.svg?c=1bxid64Mup7aczewSAYMX&t=1665042649680"
+            />
+          </div>
+          <div class="skill-box">
+            <svg
+              fill="#000000"
+              width="150px"
+              viewBox="0 0 24 24"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.006 0v1.6h15.988V0zm15.988 1.6v1.6h1.6V1.6zm1.6 1.6v14.4h-1.6v1.6H4.006v-1.6h-1.6V3.2H.809v17.6h1.599v1.6h1.599V24h15.988v-1.6h1.6v-1.6h1.598V3.2zm-19.187 0h1.599V1.6h-1.6zm4.796 3.2v6.4h1.6V6.4zm7.995 0v6.4h1.599V6.4z"
+              />
+            </svg>
+          </div>
+          <div class="skill-box">
+            <img
+              width="150"
+              alt=".xlsx icon"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/.xlsx_icon.svg/512px-.xlsx_icon.svg.png?20191217173110"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -548,56 +1025,93 @@
     <!-- EXPERIENCE -->
     <section class="exp" id="experience">
       <div class="wrap">
-        <h2>Work, Professional Experience</h2>
-      </div>
+        <h2 class="exp-title">Work, Professional Experience</h2>
 
-      <div class="exp-stage" role="region" aria-label="experience stage">
-        <div class="cols" aria-hidden="true">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        <!-- 전체가 클릭되면 Experience.html로 이동 -->
+        <a
+          class="exp-slider"
+          href="./Experience.html"
+          aria-label="Go to experience page"
+        >
+          <div class="exp-track" id="expTrack">
+            <!-- 슬라이드 1 -->
+            <article class="exp-slide" data-hover="#ff9aa4">
+              <div class="exp-slide-inner">
+                <div class="exp-slide-text">
+                  <small>Game</small>
+                  <h3>Afterschool Brawl Club</h3>
+                  <p>2025 - 2026 • Live Service</p>
+                </div>
+              </div>
+            </article>
 
-        <div class="exp-dots" aria-label="experience indicators">
-          <button class="dot active" aria-label="exp 1"></button>
-          <button class="dot" aria-label="exp 2"></button>
-          <button class="dot" aria-label="exp 3"></button>
-          <button class="dot" aria-label="exp 4"></button>
-          <button class="dot" aria-label="exp 5"></button>
-        </div>
+            <!-- 슬라이드 2 -->
+            <article class="exp-slide" data-hover="#9dbbff">
+              <div class="exp-slide-inner">
+                <div class="exp-slide-text">
+                  <small>Webtoon</small>
+                  <h3>24시 회빙환 상담소</h3>
+                  <p>2023 - 2025 • KaKaoPage</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- 슬라이드 3 -->
+            <article class="exp-slide" data-hover="#ffcf7a">
+              <div class="exp-slide-inner">
+                <div class="exp-slide-text">
+                  <small>Webtoon</small>
+                  <h3>입실론</h3>
+                  <p>2023 • RidiBooks</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- 슬라이드 4 -->
+            <article class="exp-slide" data-hover="#9de0c1">
+              <div class="exp-slide-inner">
+                <div class="exp-slide-text">
+                  <small>Personal</small>
+                  <h3>Coming Soon…</h3>
+                  <p>2026 • Personal</p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- 우측 하단 인디케이터 -->
+          <div class="exp-indicator">
+            <span id="expNow">1</span>
+            <span class="slash">/</span>
+            <span id="expTotal">4</span>
+          </div>
+        </a>
       </div>
     </section>
 
     <!-- GALLERY -->
+
     <section class="gallery" id="gallery">
       <div class="gallery-stage" role="region" aria-label="gallery viewer">
-        <button class="arrow left" aria-label="previous"></button>
-        <button class="arrow right" aria-label="next"></button>
+        <button class="arrow left" id="gPrev" aria-label="previous"></button>
+        <button class="arrow right" id="gNext" aria-label="next"></button>
 
-        <!-- 메인 뷰 placeholder -->
-        <div class="gallery-view" aria-label="gallery main view"></div>
-
-        <div class="gallery-dots" aria-label="gallery indicators">
-          <button class="dot active" aria-label="g 1"></button>
-          <button class="dot" aria-label="g 2"></button>
-          <button class="dot" aria-label="g 3"></button>
-          <button class="dot" aria-label="g 4"></button>
-          <button class="dot" aria-label="g 5"></button>
-        </div>
+        <!-- ✅ 클릭하면 gallery.html로 이동 -->
+        <a
+          class="gallery-view"
+          id="galleryLink"
+          href="./gallery.html"
+          aria-label="Open gallery page"
+        >
+          <div class="gallery-track" id="gTrack">
+            <!-- JS가 slide를 채움 -->
+          </div>
+        </a>
       </div>
 
       <div class="thumb-strip" aria-label="thumbnails">
         <div class="wrap">
-          <div class="thumbs">
-            <div class="thumb"></div>
-            <div class="thumb"></div>
-            <div class="thumb"></div>
-            <div class="thumb active"></div>
-            <div class="thumb"></div>
-            <div class="thumb"></div>
-            <div class="thumb"></div>
-            <div class="thumb"></div>
-          </div>
+          <div class="thumbs" id="thumbs"></div>
         </div>
       </div>
     </section>
@@ -606,11 +1120,19 @@
     <section class="contact" id="contact">
       <div class="wrap">
         <h2>CONTACT ME!</h2>
-        <button class="info-btn" type="button">INFO</button>
+        <a href="./contact.html"
+          ><button class="info-btn" type="button">INFO</button></a
+        >
       </div>
     </section>
 
     <script>
+      // ===== HERO 첫 로딩 애니메이션 =====
+      window.addEventListener("load", () => {
+        document.querySelectorAll(".hero-animate").forEach((el) => {
+          el.classList.add("is-visible");
+        });
+      });
       const sections = document.querySelectorAll(
         "#main, #skills, #experience, #gallery, #contact",
       );
@@ -634,6 +1156,159 @@
       );
 
       sections.forEach((section) => observer.observe(section));
+
+      // ===== Scroll reveal (skills 등) =====
+      const revealEls = document.querySelectorAll(".reveal");
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              // 한 번만 실행하고 싶으면 observe 해제
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2 },
+      );
+
+      revealEls.forEach((el) => revealObserver.observe(el));
+
+      // ===== Experience auto slider (click -> Experience.html) =====
+      const expTrack = document.getElementById("expTrack");
+      const expSlides = expTrack ? Array.from(expTrack.children) : [];
+      const expNow = document.getElementById("expNow");
+      const expTotal = document.getElementById("expTotal");
+
+      let expIndex = 0;
+      let expTimer = null;
+
+      function updateExpSlider() {
+        if (!expTrack) return;
+        expTrack.style.transform = `translateX(-${expIndex * 100}%)`;
+        if (expNow) expNow.textContent = String(expIndex + 1);
+        if (expTotal) expTotal.textContent = String(expSlides.length);
+      }
+
+      function nextExp() {
+        if (!expSlides.length) return;
+        expIndex = (expIndex + 1) % expSlides.length;
+        updateExpSlider();
+      }
+
+      function startExpAuto() {
+        if (!expSlides.length) return;
+        stopExpAuto();
+        expTimer = setInterval(nextExp, 2600); // 2.6초마다 넘어감
+      }
+
+      function stopExpAuto() {
+        if (expTimer) clearInterval(expTimer);
+        expTimer = null;
+      }
+
+      updateExpSlider();
+      startExpAuto();
+
+      // hover/focus 동안 자동 넘김 멈추기 (클릭 유도 UX)
+      const expSliderLink = document.querySelector(".exp-slider");
+      if (expSliderLink) {
+        expSliderLink.addEventListener("mouseenter", stopExpAuto);
+        expSliderLink.addEventListener("mouseleave", startExpAuto);
+        expSliderLink.addEventListener("focusin", stopExpAuto);
+        expSliderLink.addEventListener("focusout", startExpAuto);
+      }
+      // ===== GALLERY: 수동 슬라이드 + 썸네일 + 클릭시 gallery.html =====
+      const galleryImages = [
+        "./images/gallery1.png",
+        "./images/gallery2.png",
+        "./images/gallery3.png",
+        "./images/gallery4.png",
+        "./images/gallery5.png",
+        "./images/gallery6.png",
+        "./images/gallery7.png",
+        "./images/gallery8.png",
+      ];
+
+      const gTrack = document.getElementById("gTrack");
+      const thumbsEl = document.getElementById("thumbs");
+      const gPrev = document.getElementById("gPrev");
+      const gNext = document.getElementById("gNext");
+
+      let gIdx = 0;
+
+      function buildGallery() {
+        // 슬라이드 채우기
+        gTrack.innerHTML = galleryImages
+          .map(
+            (src, i) => `
+      <div class="gallery-slide">
+        <img src="${src}" alt="gallery image ${i + 1}" loading="lazy">
+      </div>
+    `,
+          )
+          .join("");
+
+        // 썸네일 채우기
+        thumbsEl.innerHTML = galleryImages
+          .map(
+            (src, i) => `
+      <button class="thumb-btn ${i === 0 ? "active" : ""}" type="button" data-idx="${i}" aria-label="thumbnail ${i + 1}">
+        <img src="${src}" alt="thumbnail ${i + 1}" loading="lazy">
+      </button>
+    `,
+          )
+          .join("");
+
+        thumbsEl.querySelectorAll(".thumb-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // 링크 이동 방지
+            setGallery((i = Number(btn.dataset.idx)));
+          });
+        });
+
+        setGallery(0, true);
+      }
+
+      function setGallery(next, immediate = false) {
+        const total = galleryImages.length;
+        gIdx = (next + total) % total;
+
+        if (immediate) gTrack.style.transition = "none";
+        else gTrack.style.transition = "transform 520ms ease";
+
+        gTrack.style.transform = `translateX(${-gIdx * 100}%)`;
+
+        thumbsEl.querySelectorAll(".thumb-btn").forEach((b, i) => {
+          b.classList.toggle("active", i === gIdx);
+        });
+
+        if (immediate)
+          requestAnimationFrame(
+            () => (gTrack.style.transition = "transform 520ms ease"),
+          );
+      }
+
+      function stepGallery(delta) {
+        setGallery(gIdx + delta);
+      }
+
+      // 버튼 클릭 시에만 이동
+      gPrev.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // 링크로 넘어가는거 방지
+        stepGallery(-1);
+      });
+
+      gNext.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        stepGallery(1);
+      });
+
+      buildGallery();
     </script>
   </body>
 </html>

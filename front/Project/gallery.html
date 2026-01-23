@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #222;
+        --muted: #9a9a9a;
+        --line: rgba(0, 0, 0, 0.18);
+        --panel: #f4f4f4;
+        --thumbbar: #2f2f2f;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Apple SD Gothic Neo,
+          "Noto Sans KR",
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        width: min(1100px, calc(100% - 56px));
+        margin: 0 auto;
+      }
+
+      /* 상단 메뉴(예시) */
+      header {
+        padding: 22px 0;
+        position: sticky;
+        top: 0;
+        background: rgba(244, 244, 244, 0.9);
+        backdrop-filter: blur(8px);
+        z-index: 5;
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+        gap: 46px;
+        font-size: 14px;
+        color: #9a9a9a;
+      }
+      nav a {
+        color: inherit;
+        text-decoration: none;
+      }
+      nav a.active {
+        color: var(--text);
+      }
+
+      /* ====== Global container ====== */
+      .wrap {
+        width: min(1100px, calc(100% - 56px));
+        margin: 0 auto;
+      }
+
+      /* ====== Top Nav ====== */
+      header.topnav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(244, 244, 244, 0.9);
+        backdrop-filter: blur(6px);
+        padding: 18px 0;
+      }
+      .topnav nav {
+        display: flex;
+        justify-content: center;
+        gap: 44px;
+        font-size: 20px;
+        letter-spacing: 0.2px;
+      }
+      .topnav a {
+        color: #9a9a9a;
+      }
+      .topnav a.active {
+        color: var(--text);
+      }
+      .topnav a:hover {
+        color: #5a5a5a;
+      }
+
+      /* Gallery dropdown wrapper */
+      /* nav 정렬 안정 */
+      .topnav nav {
+        align-items: center;
+      }
+
+      /* Gallery dropdown wrapper */
+      .nav-item {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      /* 드롭다운 */
+      .dropdown {
+        position: absolute;
+        left: 50%;
+        top: calc(100% + 10px);
+        transform: translateX(-50%) translateY(-6px);
+        min-width: 132px;
+
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+        border-radius: 8px;
+        padding: 10px;
+
+        /* ✅ 애니메이션용 */
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease,
+          visibility 0ms linear 160ms; /* 닫힐 때만 딜레이 */
+        z-index: 60;
+      }
+
+      /* 드롭다운 항목 */
+      .dropdown a {
+        display: block;
+        padding: 7px 10px;
+        font-size: 13px;
+        color: #6a6a6a;
+        border-radius: 8px;
+        white-space: nowrap;
+      }
+      .dropdown a:hover,
+      .dropdown a:focus-visible {
+        background: rgba(0, 0, 0, 0.06);
+        color: #222;
+        outline: none;
+      }
+
+      /* ✅ hover / 키보드 포커스 들어오면 열림 */
+      .nav-item:hover .dropdown,
+      .nav-item:focus-within .dropdown {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease,
+          visibility 0ms;
+      }
+
+      /* ✅ 마우스 살짝 벗어나도 "바로 꺼짐" 방지용 핫존(틈 메우기) */
+      .nav-item::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        height: 12px; /* dropdown까지 다리 역할 */
+      }
+
+      /* hover/focus로 열리게 */
+      .nav-item:hover .dropdown,
+      .nav-item:focus-within .dropdown {
+        display: block;
+      }
+
+      /* ===== CATEGORY BAR (page tabs) ===== */
+      .category-bar {
+        padding: 34px 0 12px;
+      }
+      .category-tabs {
+        display: flex;
+        gap: 28px;
+        align-items: center;
+        font-size: 16px;
+        color: #7b7b7b;
+        user-select: none;
+      }
+      .category-tabs button {
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        color: inherit;
+        padding: 6px 0;
+        font: inherit;
+        position: relative;
+      }
+      .category-tabs button.active {
+        color: #222;
+      }
+      .category-tabs button.active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -8px;
+        height: 2px;
+        background: #222;
+        opacity: 0.7;
+      }
+      .category-line {
+        margin-top: 14px;
+        height: 1px;
+        background: var(--line);
+      }
+
+      /* ===== GRID ===== */
+      .grid {
+        padding: 22px 0 80px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 26px;
+      }
+
+      .tile {
+        background: #d9d9d9;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 4px;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      /* ✅ 꽉차게 크롭 */
+      .tile img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center;
+        transform: scale(1.02);
+        transition:
+          transform 240ms ease,
+          filter 240ms ease;
+        filter: grayscale(10%);
+      }
+      .tile:hover img {
+        transform: scale(1.06);
+        filter: grayscale(0%);
+      }
+
+      /* ===== MODAL ===== */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+      }
+      .modal-backdrop.open {
+        display: flex;
+      }
+
+      .modal {
+        width: min(1400px, 96vw);
+        height: min(860px, 90vh);
+        background: transparent;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 0;
+      }
+
+      /* 상단 큰 뷰어 */
+      .modal-viewer {
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #d8d8d8;
+      }
+
+      /* 슬라이드 트랙 */
+      .m-track {
+        display: flex;
+        height: 100%;
+        transform: translateX(0%);
+        transition: transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: transform;
+      }
+      .m-slide {
+        flex: 0 0 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        background: #d8d8d8;
+      }
+      .m-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* 모달은 전체 보기 */
+        background: #d8d8d8;
+        display: block;
+      }
+
+      /* 닫기 */
+      .modal-close {
+        position: absolute;
+        right: 18px;
+        top: 14px;
+        width: 44px;
+        height: 44px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        z-index: 10;
+      }
+      .modal-close::before,
+      .modal-close::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 30px;
+        height: 2px;
+        background: #111;
+        transform-origin: center;
+      }
+      .modal-close::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      .modal-close::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+
+      /* 좌우 버튼 */
+      .m-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        opacity: 0.9;
+        z-index: 10;
+      }
+      .m-arrow.left {
+        left: 18px;
+      }
+      .m-arrow.right {
+        right: 18px;
+      }
+      .m-arrow::before {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 18px;
+        border-left: 2px solid rgba(0, 0, 0, 0.6);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.6);
+        transform: rotate(45deg);
+        margin: 0 auto;
+      }
+      .m-arrow.right::before {
+        transform: rotate(-135deg);
+      }
+
+      /* 하단 썸네일 바 */
+      .modal-thumbs {
+        background: var(--thumbbar);
+        padding: 16px 14px;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .m-thumbs-row {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 12px;
+      }
+      .m-thumb {
+        height: 56px;
+        border-radius: 2px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid transparent;
+        opacity: 0.85;
+        background: #aaa;
+      }
+      .m-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .m-thumb.active {
+        border-color: rgba(255, 255, 255, 0.85);
+        opacity: 1;
+      }
+
+      /* ===== responsive ===== */
+      @media (max-width: 980px) {
+        .wrap {
+          width: calc(100% - 32px);
+        }
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 18px;
+        }
+        .m-thumbs-row {
+          grid-template-columns: repeat(6, 1fr);
+        }
+        .topnav nav {
+          gap: 22px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .m-thumbs-row {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+
+      /* 접근성 */
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid rgba(0, 0, 0, 0.18);
+        outline-offset: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV -->
+    <!-- NAV -->
+    <header class="topnav">
+      <div class="wrap">
+        <nav aria-label="Primary">
+          <a href="Start.html"
+            ><svg
+              viewBox="0 0 1195 1195"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1109.333 997.248c0 50.176-41.6 90.752-93.12 90.752H724.95V736.32c0-53.056-38.016-96.128-85.056-96.128h-85.12c-46.976 0-85.12 43.072-85.12 96.128V1088H178.39c-51.392 0-93.056-40.576-93.056-90.752V518.272c0-23.36 9.344-44.48 24.192-60.544l-.96-1.856L534.485 82.88c34.304-25.152 89.984-25.152 124.288 0l427.264 372.992-.448 2.368c14.592 16.064 23.744 36.928 23.744 60.032v478.976z"
+              />
+            </svg>
+          </a>
+          <a href="./main.html">Main</a>
+          <a href="./Experience.html">Experience</a>
+          <!-- ✅ Gallery hover dropdown -->
+          <div class="nav-item">
+            <a class="active" href="./gallery.html" aria-haspopup="true"
+              >Gallery</a
+            >
+            <div class="dropdown" role="menu" aria-label="Gallery categories">
+              <a href="#" data-nav-cat="Game" role="menuitem">Game</a>
+              <a href="#" data-nav-cat="Comic" role="menuitem">Comic</a>
+              <a href="#" data-nav-cat="3D" role="menuitem">3D</a>
+              <a href="#" data-nav-cat="Design" role="menuitem">Design</a>
+            </div>
+          </div>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- CATEGORY -->
+    <section class="category-bar">
+      <div class="wrap">
+        <div class="category-tabs" aria-label="Gallery category tabs">
+          <button type="button" class="active" data-cat="Game">Game</button>
+          <button type="button" data-cat="Comic">Comic</button>
+          <button type="button" data-cat="3D">3D</button>
+          <button type="button" data-cat="Design">Design</button>
+        </div>
+        <div class="category-line" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <main class="wrap">
+      <section class="grid" id="grid" aria-label="Gallery grid"></section>
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Gallery viewer"
+      >
+        <div class="modal-viewer">
+          <button
+            class="modal-close"
+            type="button"
+            id="mClose"
+            aria-label="close"
+          ></button>
+          <button
+            class="m-arrow left"
+            type="button"
+            id="mPrev"
+            aria-label="previous"
+          ></button>
+          <button
+            class="m-arrow right"
+            type="button"
+            id="mNext"
+            aria-label="next"
+          ></button>
+
+          <div class="m-track" id="mTrack"></div>
+        </div>
+
+        <div class="modal-thumbs" aria-label="Gallery thumbnails">
+          <div class="m-thumbs-row" id="mThumbRow"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* =========================
+        DATA: 여기만 네 이미지로 채우면 됨
+        - cat: "Game" | "Comic" | "3D" | "Design"
+        - items: 그리드에 보일 대표 썸네일
+        - set: 모달에서 넘길 이미지 묶음(여러 장)
+      ========================= */
+      const DATA = {
+        Game: [
+          {
+            thumb: "./images/gallery/game_01_thumb.png",
+            set: [
+              "./images/gallery/game_01_1.png",
+              "./images/gallery/game_01_2.png",
+              "./images/gallery/game_01_3.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_02_thumb.png",
+            set: [
+              "./images/gallery/game_02_1.png",
+              "./images/gallery/game_02_2.png",
+            ],
+          },
+        ],
+        Comic: [
+          {
+            thumb: "./images/gallery/comic_01_thumb.png",
+            set: [
+              "./images/gallery/comic_01_1.png",
+              "./images/gallery/comic_01_2.png",
+            ],
+          },
+        ],
+        "3D": [
+          {
+            thumb: "./images/gallery/3d_01_thumb.png",
+            set: [
+              "./images/gallery/3d_01_1.png",
+              "./images/gallery/3d_01_2.png",
+            ],
+          },
+        ],
+        Design: [
+          {
+            thumb: "./images/gallery/design_01_thumb.png",
+            set: [
+              "./images/gallery/design_01_1.png",
+              "./images/gallery/design_01_2.png",
+            ],
+          },
+        ],
+      };
+
+      /* ===== state ===== */
+      let currentCat = "Game";
+      let currentSet = [];
+      let modalIndex = 0;
+
+      /* ===== elements ===== */
+      const grid = document.getElementById("grid");
+      const tabBtns = Array.from(
+        document.querySelectorAll(".category-tabs button"),
+      );
+      const navCatLinks = Array.from(
+        document.querySelectorAll("[data-nav-cat]"),
+      );
+
+      const backdrop = document.getElementById("modalBackdrop");
+      const mClose = document.getElementById("mClose");
+      const mPrev = document.getElementById("mPrev");
+      const mNext = document.getElementById("mNext");
+      const mTrack = document.getElementById("mTrack");
+      const mThumbRow = document.getElementById("mThumbRow");
+
+      /* ===== grid render ===== */
+      function renderGrid(cat) {
+        currentCat = cat;
+        const items = DATA[cat] || [];
+
+        grid.innerHTML = items
+          .map((item, i) => {
+            return `
+              <button class="tile" type="button" data-idx="${i}" aria-label="${cat} item ${i + 1}">
+                <img src="${item.thumb}" alt="${cat} thumbnail ${i + 1}" />
+              </button>
+            `;
+          })
+          .join("");
+
+        // tile click
+        grid.querySelectorAll(".tile").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const idx = Number(btn.dataset.idx || 0);
+            openModal(items[idx]?.set || []);
+          });
+        });
+      }
+
+      /* ===== modal ===== */
+      function buildModal(set) {
+        // track
+        mTrack.innerHTML = set
+          .map(
+            (src, i) => `
+            <div class="m-slide">
+              <img src="${src}" alt="modal image ${i + 1}" />
+            </div>
+          `,
+          )
+          .join("");
+
+        // thumbs
+        mThumbRow.innerHTML = set
+          .map(
+            (src, i) => `
+            <button class="m-thumb" type="button" data-i="${i}" aria-label="thumb ${i + 1}">
+              <img src="${src}" alt="thumb ${i + 1}" />
+            </button>
+          `,
+          )
+          .join("");
+
+        mThumbRow.querySelectorAll(".m-thumb").forEach((t) => {
+          t.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            goTo(Number(t.dataset.i || 0));
+          });
+        });
+      }
+
+      function syncThumbs() {
+        mThumbRow.querySelectorAll(".m-thumb").forEach((t) => {
+          t.classList.toggle("active", Number(t.dataset.i) === modalIndex);
+        });
+      }
+
+      function goTo(i) {
+        if (!currentSet.length) return;
+        modalIndex = (i + currentSet.length) % currentSet.length;
+        mTrack.style.transform = `translateX(-${modalIndex * 100}%)`;
+        syncThumbs();
+      }
+
+      function openModal(set) {
+        currentSet = Array.isArray(set) ? set.filter(Boolean) : [];
+        modalIndex = 0;
+
+        if (!currentSet.length) return;
+
+        buildModal(currentSet);
+        backdrop.classList.add("open");
+        backdrop.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+
+        // 첫 화면 적용
+        mTrack.style.transform = "translateX(0%)";
+        syncThumbs();
+      }
+
+      function closeModal() {
+        backdrop.classList.remove("open");
+        backdrop.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      /* ===== events ===== */
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          tabBtns.forEach((b) => b.classList.toggle("active", b === btn));
+          renderGrid(btn.dataset.cat);
+        });
+      });
+
+      // nav dropdown에서도 카테고리 변경
+      navCatLinks.forEach((a) => {
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const cat = a.dataset.navCat;
+          if (!cat) return;
+
+          tabBtns.forEach((b) =>
+            b.classList.toggle("active", b.dataset.cat === cat),
+          );
+          renderGrid(cat);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+
+      // modal controls (수동)
+      mPrev.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goTo(modalIndex - 1);
+      });
+      mNext.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        goTo(modalIndex + 1);
+      });
+      mClose.addEventListener("click", closeModal);
+
+      // backdrop click -> close
+      backdrop.addEventListener("click", (e) => {
+        if (e.target === backdrop) closeModal();
+      });
+
+      // keyboard: ←/→/ESC (모달 열려있을 때만)
+      window.addEventListener("keydown", (e) => {
+        if (!backdrop.classList.contains("open")) return;
+
+        if (e.key === "Escape") closeModal();
+        if (e.key === "ArrowLeft") goTo(modalIndex - 1);
+        if (e.key === "ArrowRight") goTo(modalIndex + 1);
+      });
+
+      /* ===== init ===== */
+      renderGrid(currentCat);
+    </script>
+  </body>
+</html>
