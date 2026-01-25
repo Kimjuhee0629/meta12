@@ -276,10 +276,10 @@
 
       /* SVG 크기/색 */
       .bubble-icon {
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
         position: relative;
-        top: -16px;
+        top: 10px;
 
         fill: currentColor;
       }
@@ -352,8 +352,63 @@
         display: flex;
         align-items: center; /* 세로 중앙 */
         justify-content: center; /* 가로 중앙 */
+         position: relative;
       }
+.skill-box[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: -14px;              /* 아이콘 아래쪽에 뜨게 */
+  transform: translateX(-50%) translateY(8px);
 
+  background: rgba(255, 255, 255, 0.92);
+  color: #222;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+
+  transition: opacity 160ms ease, transform 160ms ease;
+  z-index: 10;
+}
+
+.skill-box[data-tooltip]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  transform: translateX(-50%) translateY(8px);
+
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  transform: translateX(-50%) rotate(45deg);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 160ms ease, transform 160ms ease;
+  z-index: 9;
+}
+
+/* hover / focus 시 표시 */
+.skill-box:hover::after,
+.skill-box:hover::before,
+.skill-box:focus-within::after,
+.skill-box:focus-within::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
       /* ===== Experience slider (auto gallery) ===== */
       .exp {
         background: #efefef;
@@ -871,11 +926,11 @@
           <div class="nav-item">
             <a href="./gallery.html" aria-haspopup="true">Gallery</a>
             <div class="dropdown" role="menu" aria-label="Gallery categories">
-              <a href="#" data-nav-cat="Game" role="menuitem">Game</a>
-              <a href="#" data-nav-cat="Comic" role="menuitem">Comic</a>
-              <a href="#" data-nav-cat="3D" role="menuitem">3D</a>
-              <a href="#" data-nav-cat="Design" role="menuitem">Design</a>
-            </div>
+  <a href="./gallery.html?cat=Game" role="menuitem">Game</a>
+  <a href="./gallery.html?cat=Illust" role="menuitem">Illust</a>
+  <a href="./gallery.html?cat=3D" role="menuitem">3D</a>
+  <a href="./gallery.html?cat=Design" role="menuitem">Design</a>
+</div>
           </div>
           <a href="./contact.html">Contact</a>
         </nav>
@@ -949,28 +1004,28 @@
         </div>
 
         <div class="skills-grid reveal reveal--d1" aria-label="skills grid">
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Adobe Photoshop">
             <img
               width="150"
               alt="Logo of the digital imaging program, Adobe illustrateurs"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/512px-Adobe_Photoshop_CC_icon.svg.png?20200616073617"
             />
           </div>
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Adobe Illustrator">
             <img
               width="150"
               alt="Pour retouch"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Adobe-illustrator-icon.svg/512px-Adobe-illustrator-icon.svg.png?20250728015003"
             />
           </div>
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Blender">
             <img
               width="150"
               alt='The symbol of Blender without the caption "Blender" next to it.'
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/512px-Blender_logo_no_text.svg.png?20210507122249"
             />
           </div>
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Vroid Studio">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
@@ -989,16 +1044,16 @@
             </svg>
           </div>
 
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Clip Studio Paint">
             <img width="150" src="./images/Clipstudiopaint_app_logo.png" />
           </div>
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Unity">
             <img
               width="130"
               src="https://cdn.brandfetch.io/idEc0EPR9J/id4iYfjjBn.svg?c=1bxid64Mup7aczewSAYMX&t=1665042649680"
             />
           </div>
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Aseprite">
             <svg
               fill="#000000"
               width="150px"
@@ -1011,7 +1066,7 @@
               />
             </svg>
           </div>
-          <div class="skill-box">
+          <div class="skill-box" data-tooltip="Excel">
             <img
               width="150"
               alt=".xlsx icon"
@@ -1100,7 +1155,7 @@
         <a
           class="gallery-view"
           id="galleryLink"
-          href="./gallery.html"
+          href="/gallery.html"
           aria-label="Open gallery page"
         >
           <div class="gallery-track" id="gTrack">

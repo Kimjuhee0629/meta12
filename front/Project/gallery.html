@@ -280,35 +280,49 @@
       }
 
       /* 상단 큰 뷰어 */
-      .modal-viewer {
-        position: relative;
-        border-radius: 6px;
-        overflow: hidden;
-        background: #d8d8d8;
-      }
+      /* ✅ 모달 뷰어: 이미지가 숨쉬는 여백 */
+.modal-viewer {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #d8d8d8;
+}
+/* ✅ 슬라이드 트랙(빠져서 이미지가 안 보였던 원인) */
+.m-track {
+  display: flex;
+  height: 100%;
+  transform: translateX(0%);
+  transition: transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
 
-      /* 슬라이드 트랙 */
-      .m-track {
-        display: flex;
-        height: 100%;
-        transform: translateX(0%);
-        transition: transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
-        will-change: transform;
-      }
-      .m-slide {
-        flex: 0 0 100%;
-        height: 100%;
-        display: grid;
-        place-items: center;
-        background: #d8d8d8;
-      }
-      .m-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* 모달은 전체 보기 */
-        background: #d8d8d8;
-        display: block;
-      }
+/* ✅ 슬라이드: 가운데 정렬 + 패딩(여백) */
+.m-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 이미지가 너무 꽉 차 보이는 느낌 방지 */
+  padding: 24px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+}
+
+/* ✅ 이미지: 원본비율 유지 + 전체 보이기(크롭 X) */
+.m-slide img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+  object-position: center;
+}
 
       /* 닫기 */
       .modal-close {
@@ -404,6 +418,7 @@
         border-color: rgba(255, 255, 255, 0.85);
         opacity: 1;
       }
+      
 
       /* ===== responsive ===== */
       @media (max-width: 980px) {
@@ -465,13 +480,13 @@
               >Gallery</a
             >
             <div class="dropdown" role="menu" aria-label="Gallery categories">
-              <a href="#" data-nav-cat="Game" role="menuitem">Game</a>
-              <a href="#" data-nav-cat="Comic" role="menuitem">Comic</a>
-              <a href="#" data-nav-cat="3D" role="menuitem">3D</a>
-              <a href="#" data-nav-cat="Design" role="menuitem">Design</a>
-            </div>
+  <a href="./gallery.html?cat=Game" role="menuitem">Game</a>
+  <a href="./gallery.html?cat=Illust" role="menuitem">Illust</a>
+  <a href="./gallery.html?cat=3D" role="menuitem">3D</a>
+  <a href="./gallery.html?cat=Design" role="menuitem">Design</a>
+</div>
           </div>
-          <a href="#contact">Contact</a>
+          <a href="./contact.html">Contact</a>
         </nav>
       </div>
     </header>
@@ -481,7 +496,7 @@
       <div class="wrap">
         <div class="category-tabs" aria-label="Gallery category tabs">
           <button type="button" class="active" data-cat="Game">Game</button>
-          <button type="button" data-cat="Comic">Comic</button>
+          <button type="button" data-cat="Illust">Illust</button>
           <button type="button" data-cat="3D">3D</button>
           <button type="button" data-cat="Design">Design</button>
         </div>
@@ -534,7 +549,7 @@
     <script>
       /* =========================
         DATA: 여기만 네 이미지로 채우면 됨
-        - cat: "Game" | "Comic" | "3D" | "Design"
+        - cat: "Game" | "Illust" | "3D" | "Design"
         - items: 그리드에 보일 대표 썸네일
         - set: 모달에서 넘길 이미지 묶음(여러 장)
       ========================= */
@@ -543,34 +558,199 @@
           {
             thumb: "./images/gallery/game_01_thumb.png",
             set: [
-              "./images/gallery/game_01_1.png",
-              "./images/gallery/game_01_2.png",
-              "./images/gallery/game_01_3.png",
+              "./images/gallery/game_01_1.png"
             ],
           },
           {
             thumb: "./images/gallery/game_02_thumb.png",
             set: [
-              "./images/gallery/game_02_1.png",
-              "./images/gallery/game_02_2.png",
+              "./images/gallery/game_02_1.png"
             ],
           },
-        ],
-        Comic: [
           {
-            thumb: "./images/gallery/comic_01_thumb.png",
+            thumb: "./images/gallery/game_03_thumb.png",
             set: [
-              "./images/gallery/comic_01_1.png",
-              "./images/gallery/comic_01_2.png",
+              "./images/gallery/game_03_1.png"
             ],
           },
+          {
+            thumb: "./images/gallery/game_04_thumb.png",
+            set: [
+              "./images/gallery/game_04_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_05_thumb.png",
+            set: [
+              "./images/gallery/game_05_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_06_thumb.png",
+            set: [
+              "./images/gallery/game_06_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_07_thumb.png",
+            set: [
+              "./images/gallery/game_07_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_08_thumb.png",
+            set: [
+              "./images/gallery/game_08_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_09_thumb.png",
+            set: [
+              "./images/gallery/game_09_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_10_thumb.png",
+            set: [
+              "./images/gallery/game_10_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_11_thumb.png",
+            set: [
+              "./images/gallery/game_11_1.png"
+            ],
+          },
+          {
+            thumb: "./images/gallery/game_12_thumb.png",
+            set: [
+              "./images/gallery/game_12_1.png"
+            ],
+          }
+          
+        ],
+        Illust: [
+          {
+            thumb: "./images/gallery/Illust_01_thumb.png",
+            set: [
+              "./images/gallery/Illust_01_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_02_thumb.png",
+            set: [
+              "./images/gallery/Illust_02_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_03_thumb.png",
+            set: [
+              "./images/gallery/Illust_03_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_04_thumb.png",
+            set: [
+              "./images/gallery/Illust_04_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_05_thumb.png",
+            set: [
+              "./images/gallery/Illust_05_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_06_thumb.png",
+            set: [
+              "./images/gallery/Illust_06_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_07_thumb.png",
+            set: [
+              "./images/gallery/Illust_07_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_08_thumb.png",
+            set: [
+              "./images/gallery/Illust_08_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_09_thumb.png",
+            set: [
+              "./images/gallery/Illust_09_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_10_thumb.png",
+            set: [
+              "./images/gallery/Illust_10_thumb.png",
+            ],
+          },
+           {
+            thumb: "./images/gallery/Illust_11_thumb.png",
+            set: [
+              "./images/gallery/Illust_11_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/Illust_12_thumb.png",
+            set: [
+              "./images/gallery/Illust_12_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/Illust_13_thumb.png",
+            set: [
+              "./images/gallery/Illust_13_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/Illust_14_thumb.png",
+            set: [
+              "./images/gallery/Illust_14_thumb.png",
+            ],
+          },
+          
         ],
         "3D": [
           {
             thumb: "./images/gallery/3d_01_thumb.png",
             set: [
-              "./images/gallery/3d_01_1.png",
-              "./images/gallery/3d_01_2.png",
+              "./images/gallery/3d_01_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/3d_02_thumb.png",
+            set: [
+              "./images/gallery/3d_02_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/3d_03_thumb.png",
+            set: [
+              "./images/gallery/3d_03_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/3d_04_thumb.png",
+            set: [
+              "./images/gallery/3d_04_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/3d_05_thumb.png",
+            set: [
+              "./images/gallery/3d_05_thumb.png",
+            ],
+          },
+          {
+            thumb: "./images/gallery/3d_06_thumb.png",
+            set: [
+              "./images/gallery/3d_06_thumb.png",
             ],
           },
         ],
@@ -578,8 +758,7 @@
           {
             thumb: "./images/gallery/design_01_thumb.png",
             set: [
-              "./images/gallery/design_01_1.png",
-              "./images/gallery/design_01_2.png",
+              "./images/gallery/design_01_thumb.png",
             ],
           },
         ],
@@ -612,20 +791,23 @@
         const items = DATA[cat] || [];
 
         grid.innerHTML = items
-          .map((item, i) => {
-            return `
+          .map(
+            (item, i) => `
               <button class="tile" type="button" data-idx="${i}" aria-label="${cat} item ${i + 1}">
                 <img src="${item.thumb}" alt="${cat} thumbnail ${i + 1}" />
               </button>
-            `;
-          })
+            `,
+          )
           .join("");
 
-        // tile click
+        // ✅ 카테고리 대표 이미지 리스트(모달용)
+        const catImages = getCategoryImages(cat);
+
+        // tile click → 카테고리 전체를 모달 슬라이드로 열고, 클릭한 타일부터 시작
         grid.querySelectorAll(".tile").forEach((btn) => {
           btn.addEventListener("click", () => {
             const idx = Number(btn.dataset.idx || 0);
-            openModal(items[idx]?.set || []);
+            openModalFromCategory(catImages, idx);
           });
         });
       }
@@ -676,19 +858,21 @@
         syncThumbs();
       }
 
-      function openModal(set) {
-        currentSet = Array.isArray(set) ? set.filter(Boolean) : [];
-        modalIndex = 0;
-
+      function openModalFromCategory(images, startIndex = 0) {
+        currentSet = Array.isArray(images) ? images.filter(Boolean) : [];
         if (!currentSet.length) return;
 
         buildModal(currentSet);
+
+        // ✅ 시작 인덱스를 클릭한 타일 인덱스로
+        modalIndex = Math.max(0, Math.min(startIndex, currentSet.length - 1));
+
         backdrop.classList.add("open");
         backdrop.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
 
-        // 첫 화면 적용
-        mTrack.style.transform = "translateX(0%)";
+        // ✅ 첫 화면 적용
+        mTrack.style.transform = `translateX(-${modalIndex * 100}%)`;
         syncThumbs();
       }
 
@@ -748,8 +932,37 @@
         if (e.key === "ArrowRight") goTo(modalIndex + 1);
       });
 
+      function getCategoryImages(cat) {
+        const items = DATA[cat] || [];
+        // ✅ 모달에서 보여줄 이미지 = 각 타일의 대표 이미지(thumb or set[0])
+        return items.map((item) => item.set?.[0] || item.thumb).filter(Boolean);
+      }
+
       /* ===== init ===== */
-      renderGrid(currentCat);
+(function initFromQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get("cat");
+
+  // 허용된 카테고리만 통과
+  const allowed = ["Game", "Illust", "3D", "Design"];
+  if (cat && allowed.includes(cat)) {
+    currentCat = cat;
+
+    // 탭 UI 활성화
+    tabBtns.forEach((b) =>
+      b.classList.toggle("active", b.dataset.cat === cat),
+    );
+
+    renderGrid(cat);
+
+    // (선택) 탭 있는 위치로 부드럽게 위로
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  // 기본값
+  renderGrid(currentCat);
+})();
     </script>
   </body>
 </html>
