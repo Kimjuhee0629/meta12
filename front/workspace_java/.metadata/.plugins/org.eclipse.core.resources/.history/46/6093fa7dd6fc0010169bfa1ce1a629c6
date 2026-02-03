@@ -1,0 +1,14 @@
+package exam04;
+
+public class Ex08 {
+
+	public static void main(String[] args) {
+
+		for (초기값; 종료할조건; 증가치) {
+			
+		}
+		
+		System.out.println("?");
+	}
+
+}

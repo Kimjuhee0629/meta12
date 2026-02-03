@@ -1,0 +1,31 @@
+package exam04;
+
+public class Ex07 {
+
+	public static void main(String[] args) {
+		/*
+		 등급조건(평균기준)
+		 1등급 : 90점이상
+		 2등급 : 80점이상
+		 3등급 : 70점이상
+		 4등급 : 60점이상
+		 5등급 : 60점미만
+		*/
+		double avg = 85.0;
+		
+		switch(avg) {
+			case "":
+				
+			case "":
+				
+			case "":
+				
+			case "":
+				
+			default:
+		}
+		
+		System.out.println("-- 프로그램 종료 --");
+	}
+
+}

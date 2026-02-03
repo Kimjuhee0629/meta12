@@ -1,0 +1,12 @@
+package exam02;
+
+public class Ex04 {
+
+	public static void main(String[] args) {
+		// 같은 자료형 간의 연산
+		int value1 = 3 + 5;
+		System.out.println(value1);
+
+	}
+
+}

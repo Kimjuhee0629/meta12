@@ -1,0 +1,9 @@
+package exam03;
+
+public class Ex05 {
+
+	public static void main(String[] args) {
+		// 삼항연산자:	조건 ? 참일때 값 : 거짓일때 값;
+		int k = 5;
+		
+	}

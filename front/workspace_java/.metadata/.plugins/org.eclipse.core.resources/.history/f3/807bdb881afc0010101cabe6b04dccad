@@ -1,0 +1,14 @@
+package exam04;
+
+public class Ex03 {
+
+	public static void main(String[] args) {
+		int kor = 90;
+		int eng = 80;
+		int mat = 70;
+		int tot = kor + eng + mat;
+		평균 = tot / 3;
+
+	}
+
+}

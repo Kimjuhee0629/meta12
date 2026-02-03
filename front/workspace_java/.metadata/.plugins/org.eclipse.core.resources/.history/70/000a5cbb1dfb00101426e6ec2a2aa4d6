@@ -1,0 +1,23 @@
+package exam01;
+
+public class Test03 {
+	public static void main(String[] args) {
+		System.out.println("안녕하세요");
+		System.out.println("안녕" + "하세요");
+		System.out.println("오늘은 " + "춥네요."); // 문자열 + 문자열
+		
+		//출력문 : System.out.print(""); , System.out.printf("");
+		//서식이 없는 출력문 : System.out.print("");
+		//서식이 있는 출력문 : System.out.printf("");  %s %d %f
+		
+		// 안녕하세요 홍길동님의 나이는 19세입니다.
+		// 안녕하세요 이성순님의 나이는 21세입니다.
+		// 안녕하세요 장천용님의 나이는 23세입니다.
+		
+		System.out.println("안녕하세요 홍길동님의 나이는 19세입니다.");
+		System.out.println("안녕하세요 이성순님의 나이는 21세입니다.");
+		System.out.println("안녕하세요 장천용님의 나이는 23세입니다..");
+	}
+}
+
+// 글자 > 문자열 (큰따옴표로 둘러쌓여있으면 문자열이다.)

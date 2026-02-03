@@ -1,0 +1,15 @@
+package exam01;
+
+public class Test03 {
+	public static void main(String[] args) {
+		System.out.println("안녕하세요");
+		System.out.println("안녕" + "하세요");
+		System.out.println("오늘은 " + "춥네요."); // 문자열 + 문자열
+		
+		//출력문 : System.out.print(""); , System.out.printf("");
+		//서식이 없는 출력문 :
+		//서식이 있는 출력문 :
+	}
+}
+
+// 글자 > 문자열 (큰따옴표로 둘러쌓여있으면 문자열이다.)

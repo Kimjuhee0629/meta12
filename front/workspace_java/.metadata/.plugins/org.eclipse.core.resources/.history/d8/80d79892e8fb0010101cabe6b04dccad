@@ -1,0 +1,17 @@
+package exam03;
+
+public class Ex01 {
+
+	public static void main(String[] args) {
+		// 산술연산자
+		int num1 = 5;
+		int num2 = 3;
+		System.out.println(num1 + num2);
+		System.out.println(num1 - num2);
+		System.out.println(num1 * num2);
+		System.out.println(num1 / num2); // 몫
+		System.out.println(num1 % num2); // 나머지
+
+	}
+
+}
